@@ -1,0 +1,4 @@
+boto3==1.28.23
+snowflake-connector-python==3.1.1
+python-dotenv
+pympler

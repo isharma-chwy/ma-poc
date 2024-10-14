@@ -1,0 +1,70 @@
+SELECT mps.activity_date AS "Day",
+    mps.financial_calendar_reporting_year AS "Year",
+    mps.financial_calendar_reporting_quarter AS "Qtr",
+    mps.financial_calendar_reporting_period AS "Period",
+    mps.brand_parent_company AS "Parent Company",
+    mps.brand AS "Brand",
+    mps.product_name AS "Product Name",
+    mps.product_part_number AS "Product Part Number",
+    mps.parent_product_name AS "Parent Prod Name",
+    mps.parent_product_part_number AS "Parent Prod Part Number",
+    mps.product_list_price AS "Product List Price",
+    mps.product_map_price AS "Product MAP Price",
+    mps.product_merch_classification1 AS "Merch Class 1",
+    mps.product_merch_classification2 AS "Merch Class 2",
+    mps.category1 AS "Category 1",
+    sum(mps.merch_sales) AS "Merch Sales",
+    sum(mps.total_discounts) AS "Total Discounts",
+    sum(mps.shipping_revenue) AS "Shipping Rev",
+    sum(mps.net_sales) AS "Net Sales",
+    sum(mps.raw_product_cost_units_sold) AS "Raw Product Cost",
+    sum(mps.replacement_expense) AS "Replacement cost",
+    sum(mps.total_standard_inbound_cost) AS "Inbound Freight",
+    sum(mps.raw_product_margin) AS "Raw Margin",
+    sum(mps.product_margin) AS "Product Margin",
+    sum(mps.total_freight_and_supplies) AS "Freight",
+    sum(mps.gross_margin) AS "Gross Margin",
+    sum(mps.units_shipped) AS "Units Shipped",
+    sum(mps.units_sold) AS "Units Sold",
+    sum(mps.total_receipt_cost) AS "Receipt Cost",
+    sum(mps.refunds) AS "Refunds",
+    sum(mps.rebates) AS "Rebates",
+    sum(mps.autoship_reimbursments) AS "AS Rebates",
+    sum(mps.inventory_adjustments) AS "Inv Adj"
+FROM mrch.merch_performance_snapshot_pharmacy mps -- FROM chewybi.merch_performance_snapshot mps
+    JOIN chewybi.common_date cd ON cd.common_date_dttm = mps.activity_date
+WHERE 1 = 1
+    AND mps.activity_date >= '2023-10-02'
+    AND mps.activity_date <= '2024-10-01'
+    AND mps.merch_sales <> 0
+    AND mps.product_company_description = 'Chewy'
+    AND mps.product_part_number IN ({}) --  AND mps.brand_parent_company IN ('ROYAL CANIN')
+    --  AND mps.brand IN ('Royal Canin')
+    --  AND mps.product_merch_classification1 IN ('Dog Consumables')
+GROUP BY 1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+ORDER BY 1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12;
