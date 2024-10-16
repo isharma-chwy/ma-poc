@@ -34,11 +34,11 @@ SELECT mps.activity_date AS "Day",
 FROM mrch.merch_performance_snapshot_pharmacy mps -- FROM chewybi.merch_performance_snapshot mps
     JOIN chewybi.common_date cd ON cd.common_date_dttm = mps.activity_date
 WHERE 1 = 1
-    AND mps.activity_date >= '2023-10-02'
-    AND mps.activity_date <= '2024-10-01'
+    AND mps.activity_date >= ADD_MONTHS( CURRENT_DATE() , -%(num_months_offset)s )
+    AND mps.activity_date <= CURRENT_DATE()
     AND mps.merch_sales <> 0
     AND mps.product_company_description = 'Chewy'
-    AND mps.product_part_number IN ({}) --  AND mps.brand_parent_company IN ('ROYAL CANIN')
+    AND mps.product_part_number IN (%(part_numbers)s) --  AND mps.brand_parent_company IN ('ROYAL CANIN')
     --  AND mps.brand IN ('Royal Canin')
     --  AND mps.product_merch_classification1 IN ('Dog Consumables')
 GROUP BY 1,

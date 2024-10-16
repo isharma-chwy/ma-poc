@@ -14,7 +14,7 @@ class AbstractBIGetter(ABC):
         pass
 
     @abstractmethod
-    def execute_query(self, query):
+    def execute_query(self, query, params, debug):
         """
         Execute a query against the BI system.
         """

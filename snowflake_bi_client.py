@@ -59,14 +59,16 @@ class SnowflakeBIGetter(AbstractBIGetter):
             autocommit=True,
         )
 
-    def execute_query(self, query) -> List:
+    def execute_query(self, query, params, debug) -> List:
         """
         Execute a query on the Snowflake database.
         """
         if not self.connection:
             raise Exception("Not connected to Snowflake")
         cursor = self.connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, params)
+        if debug:
+            print(cursor.query)
         return cursor.fetchall()
 
     def disconnect(self):
